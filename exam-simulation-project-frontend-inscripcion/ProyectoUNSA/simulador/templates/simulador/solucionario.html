@@ -1,0 +1,177 @@
+{% extends 'tablero/tablero.html' %}
+
+{% block style %}
+    .cajita{
+    padding:30px;
+    }
+    .enunciado{
+    text-align:justify;
+    }
+    .input-group{
+    margin-bottom:5px;
+    }
+    #orden{
+    border-radius: 20px;
+    border: 0;
+    text-align: center;
+    padding: 0;
+    }
+    .content-wrapper{
+    background: rgb(111,18,21);
+    background: linear-gradient(163deg, rgba(111,18,21,1) 35%, rgba(255,255,255,1) 100%);
+    }
+    .letra{
+    font-weight: bold;
+    font-size:30px;
+    }
+{% endblock %}
+
+{% block content %}
+
+    <div class="container fondito">
+        <div class="row mx-auto">
+            <div class="col-md-8 bg-white rounded mx-auto my-4">
+                <div class="row cajita">
+                    <!-- hora y botones de avanze-->
+                    <div class="col-12">
+                        <div class="row py-4">
+                            <div class=" col-2 arrow">
+                                <button id="btn-back" class="btn btn-primary"><i class="fa fa-arrow-left"
+                                                                                 aria-hidden="true"></i></button>
+                                <button id="btn-next" class="btn btn-primary"><i class="fa fa-arrow-right"
+                                                                                 aria-hidden="true"></i></button>
+                            </div>
+                            <div class="col-5 text-center">
+                                <h2 class="numero_pregunta"></h2>
+                            </div>
+                            <div class="col-5 timer bg-primary rounded my-auto">
+                                <div id="countdown" class="row d-flex justify-content-center letra">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Enunciado-->
+                    <div class="col-12">
+                        <p class="enunciado"><span></span></p>
+                    </div>
+
+                    <!-- Solucionario-->
+                    <div class="col-12">
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                   <h8>Respuesta de la pregunta:</h8>
+                                </div>
+                            </div>
+                            <label class="form-control form-check-label respuestas" type="text" id="soss" <h1>{{ Esta_en_Examen.respuestas }}</h1>
+                        </div>
+                    </div>
+
+                    <!-- Numeración y finalizar-->
+                    <div class="col-12 text-center">
+                        <div>
+                            <input id="orden" name="numeracion" type="text" value="1" size="2">/10
+                        </div>
+                        <div class="float-right">
+                            <button id="finalizar" class="btn btn-danger">Regresar al Inicio</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="application/javascript">
+        /*Variables*/
+        let enun = [];
+        var soluciones = [];
+        var soss = [];
+        var id_exam=" ";
+        /*Aqui va el limite de preguntas establecido por la BD*/
+        let limite = 9;
+        /*Inicializamos el array de respuesta*/
+        let rpta = [];
+        for (let i = 0; i < limite; i++) {
+            rpta[i] = 0;
+        }
+        {% for p in object_list %}
+            console.log('{{p.id_Examen.id}}')
+            soss.push(`{{p.id_Examen.soluciones}}`);
+            enun.push(`{{ p.id_Pregunta.Enunciado }}`);
+            soluciones.push(`{{p.id_Pregunta.sovle}}`);
+            id_exam=`{{p.id_Examen.id}}`;
+        {% endfor %}
+
+        /*Logica de Preguntas next y back*/
+        let value = 0;
+
+        function next() {
+            if (value == limite) {
+                return;
+            }
+            value++;
+            cambiar();
+        }
+
+        function back() {
+            if (value == 0) {
+                return;
+            }
+            value--;
+            cambiar();
+        }
+
+        $('#btn-next').click(function () {
+            next();
+        });
+        $('#btn-back').click(function () {
+            back();
+        });
+
+        /*Numeración*/
+        $('input[name=numeracion]').change(function () {
+            value = $('#orden').val() - 1;
+            cambiar()
+        });
+
+        /*Funcion para re dibujar las preguntas y sus opciones*/
+        function cambiar() {
+            $('.numero_pregunta').text('Pregunta: ' + (value + 1))
+            $('.respuestas').text(soss[0][value])
+            console.log(enun[value])
+            $('.enunciado').text(enun[value])
+            $('#orden').val(value + 1);
+
+            /*Ocultar o mostrar botones*/
+            if (value == limite) {
+                $("#finalizar").show();
+                $('#btn-back').attr("disabled", false);
+                $('#btn-next').attr("disabled", true);
+            } else if (value == 0) {
+                $('#btn-next').attr("disabled", false);
+                $('#btn-back').attr("disabled", true);
+            } else if (value > limite || value < 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Este número de pregunta no existe!',
+                    footer: 'Te dirigiremos a la primera pregunta :D'
+                });
+                value = 0;
+                cambiar();
+            } else {
+                $('#btn-back').attr("disabled", false);
+                $('#btn-next').attr("disabled", false);
+            }
+
+        }
+
+        /*Empezar a llenar la primer pregunta*/
+        cambiar()
+
+        /* boton de Finalizar*/
+        $('#finalizar').click(function () {
+            document.getElementById('countdown').innerHTML = "<META HTTP-EQUIV='REFRESH' CONTENT='1;URL=/inicio/'>";
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block div %}
+<div class="row">
+  <div class="col-sm-8">
+    <h1>Postulantes inscritos</h1>
+  </div>
+  <div class="col-sm-4">
+    <a href="{% url 'ExPostcreate' pk %}" type="submit" class="btn btn-info">Añadir Postulante</a>
+  </div>
+</div>
+<table class="table  table-striped table-bordered table-sm">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Postulante</th>
+      <th>Escuela</th>
+      <th>Estado</th>
+      <th>#</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in object_list %}
+  <tr>
+    {% if i.Esta_inscrito %}
+      {% if i.DioExamen %}
+      <td>{{i.id}}</td>
+      <td>{{i.Postulante_id.usuario.username}}</td>
+      <td>{{i.Escuela_id.Nombre}}</td>
+      <td>
+        Inscrito
+      </td>
+      <td>
+        <a href="{% url 'ExPostdelete' i.id %}" type="submit" class="btn btn-danger">Eliminar</a>
+      </td>
+      {% else %}
+      <td>{{i.id}}</td>
+      <td>{{i.Postulante_id.usuario.username}}</td>
+      <td>{{i.Escuela_id.Nombre}}</td>
+      <td>
+        Dio el Examen
+      </td>
+      <td>
+        <a href="{% url 'ExPostdelete' i.id %}" type="submit" class="btn btn-danger">Eliminar</a>
+      </td>
+      {% endif %}
+    {% else %}
+    <td>{{i.id}}</td>
+    <td>{{i.Postulante_id.usuario.username}}</td>
+    <td>{{i.Escuela_id.Nombre}}</td>
+    <td>
+      Pre-Inscrito
+    </td>
+    <td>
+      <a href="{% url 'ExPostdelete' i.id %}" type="submit" class="btn btn-danger">Eliminar</a>
+    </td>
+    {% endif %}
+  </tr>
+  {% empty %}
+  <p>No articles yet.</p>
+  {% endfor %}
+</tbody>
+</table>
+  <br>
+  <a href="{% url 'Exlist' %}">Volver</a>
+{% endblock %}

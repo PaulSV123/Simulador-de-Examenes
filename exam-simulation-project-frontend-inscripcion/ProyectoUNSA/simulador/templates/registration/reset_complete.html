@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %} {% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+	<div class="d-flex flex-column">
+		<p class="m-auto">Tu contraseña ha sido restablecida. Puedes seguir adelante y<a href="{% url 'sign_in' %}">Login</a> ahora.</p>
+	</div>
+</div>
+
+{% endblock %}

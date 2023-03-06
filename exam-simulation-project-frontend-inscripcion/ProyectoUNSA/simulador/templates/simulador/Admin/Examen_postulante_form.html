@@ -1,0 +1,16 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block div %}
+  <div class="container" style="text-align: center;">
+    <form action="{% url 'ExPostcreate' 0 %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{form.as_p}}
+      <input type="submit" value="Save">
+    </form>
+  </div>
+{% endblock div %}
+
+{% block javascript %}
+
+{% endblock javascript %}

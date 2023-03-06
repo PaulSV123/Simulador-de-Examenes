@@ -1,0 +1,17 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block div %}
+  <div class="container" style="text-align: center;">
+    <form action="{% url 'ExPregcreate' pk %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{form.as_p}}
+      <p>Numero: <input type="number" name="numero_pregunta" required id="id_numero_pregunta"></p>
+      <input type="submit" value="Save">
+    </form>
+  </div>
+{% endblock div %}
+
+{% block javascript %}
+
+{% endblock javascript %}

@@ -1,0 +1,37 @@
+{% load static %}
+
+<html>
+    <head>
+       <style>
+           .lista{
+            list-style-type: upper-roman;
+            height: 12px;
+           }
+       </style>
+    </head>
+    
+    <body>
+        <h1>
+            Resultado de Pre-Inscripción de {{ user.username }} 
+        </h1>
+        <div>
+            <p style="height: 16px">
+                Resultado:
+            </p>
+            <p style="height: 14px; color:darkblue">
+                Pre-Inscripción aceptada
+            </p>
+
+            <ul id="lista">
+                <li>Acérquese el DÍA ----  (Único día), a cualquier Agente BCP cercano a su domicilio </li>
+                <li>Indiquele que desea hacer un pago de INSCRIPCIÓN de examen virtual de la UNSA, brindele el siguiente número de cuenta ---. </li>
+                <li>Deberán pedirle un Código, brinde el siguiente número --- . </li>
+                <li>IMPORTANTE - El AGENTE debe confirmarle sus nombres y apellidos y deben aparecer impresos en el VAUCHER.(Caso contrario puede tener problemas en su inscripción)</li>
+                <li>Realice el pago correspondiente. </li>
+                <li>Si lográ hacer el Pago, su INSCRIPCIÓN RECIEN ESTA CONFIRMADA - Caso contrario Perdera esta vacante</li>
+                <li>Finalmente deberá llegarle un correo de INSCRIPCIÓN EXITOSA a su correo e-mail</li>
+            </ul>
+        </div>     
+    </body>
+    
+</html>

@@ -1,0 +1,18 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block div %}
+<table class="table">
+    <tr><td>
+        <a href="{% url 'Plist' %}" class="btn btn-primary">Postulantes</a>
+    </td></tr>
+    <tr><td>
+        <a href="{% url 'Exlist' %}" class="btn btn-primary">Examenes</a>
+    </td></tr>
+    <tr><td>
+        <a href="#" class="btn btn-primary">Areas</a>
+    </td></tr>
+</table>
+{% endblock %}
+
+

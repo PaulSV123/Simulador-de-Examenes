@@ -1,0 +1,49 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block div %}
+<div class="row">
+  <div class="col-sm-8">
+    <h1> Preguntas </h1>
+  </div>
+  <div class="col-sm-4">
+    <a href="{% url 'ExPregcreate' pk %}" type="submit" class="btn btn-info">Añadir Pregunta</a>
+  </div>
+</div>
+<table class="table  table-striped table-bordered table-sm">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Enunciado</th>
+      <th>Resolucion</th>
+      <th>Opcion1</th>
+      <th>Opcion2</th>
+      <th>Opcion3</th>
+      <th>Opcion4</th>
+      <th>Opcion5</th>
+      <th>#</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in object_list %}
+  <tr>
+    <td>{{i.id}}</td>
+    <td>{{i.id_Pregunta.Enunciado}}</td>
+    <td>{{i.id_Pregunta.Resolucion}}</td>
+    <td>{{i.id_Pregunta.Opcion1}}</td>
+    <td>{{i.id_Pregunta.Opcion2}}</td>
+    <td>{{i.id_Pregunta.Opcion3}}</td>
+    <td>{{i.id_Pregunta.Opcion4}}</td>
+    <td>{{i.id_Pregunta.Opcion5}}</td>
+    <td>
+        <a href="{% url 'ExPregdelete' i.id %}" type="submit" class="btn btn-danger">Eliminar</a>
+    </td>
+  </tr>
+  {% empty %}
+  <p>No articles yet.</p>
+  {% endfor %}
+</tbody>
+</table>
+  <br>
+  <a href="{% url 'Exlist' %}" class="btn btn-success">Volver</a>
+{% endblock %}

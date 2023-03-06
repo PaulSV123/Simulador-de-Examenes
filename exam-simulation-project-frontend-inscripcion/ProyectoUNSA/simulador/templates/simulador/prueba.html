@@ -1,0 +1,324 @@
+{% extends 'tablero/tablero.html' %}
+{% load static %}
+
+{% block style %}
+    .cajita{
+    padding:30px;
+    }
+    .enunciado{
+    text-align:justify;
+    }
+    .input-group{
+    margin-bottom:5px;
+    }
+    #orden{
+    border-radius: 20px;
+    border: 0;
+    text-align: center;
+    padding: 0;
+    }
+    .content-wrapper{
+    background: rgb(111,18,21);
+    background: linear-gradient(163deg, rgba(111,18,21,1) 35%, rgba(255,255,255,1) 100%);
+    }
+    .letra{
+    font-weight: bold;
+    font-size:30px;
+    }
+{% endblock %}
+
+{% block content %}
+
+    <div class="container fondito">
+        <div class="row mx-auto">
+            <div class="col-md-8 bg-white rounded mx-auto my-4">
+                <div class="row cajita">
+                    <!-- hora y botones de avanze-->
+                    <div class="col-12">
+                        <div class="row py-4">
+                            <div class=" col-2 arrow">
+                                <button id="btn-back" class="btn btn-primary"><i class="fa fa-arrow-left"
+                                                                                 aria-hidden="true"></i></button>
+                                <button id="btn-next" class="btn btn-primary"><i class="fa fa-arrow-right"
+                                                                                 aria-hidden="true"></i></button>
+                            </div>
+                            <div class="col-5 text-center">
+                                <h2 class="numero_pregunta"></h2>
+                            </div>
+                            <div class="col-5 timer bg-primary rounded my-auto">
+                                <div id="countdown" class="row d-flex justify-content-center letra">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enunciado-->
+                    <div class="col-12">
+                        <p class="enunciado"><span></span></p>
+                    </div>
+
+                    <!-- Opciones-->
+                    <div class="col-12">
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="radio" name="opciones" id="op1" value="option1"
+                                           onClick="respuesta('uno');"/>
+                                </div>
+                            </div>
+                            <label class="form-control form-check-label opp1" for="op1"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="radio" name="opciones" id="op2" value="option2"
+                                           onClick="respuesta('dos');"/>
+                                </div>
+                            </div>
+                            <label class="form-control form-check-label opp2" for="op2"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="radio" name="opciones" id="op3" value="option3"
+                                           onClick="respuesta('tres');">
+                                </div>
+                            </div>
+                            <label class="form-control form-check-label opp3" for="op3"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="radio" name="opciones" id="op4" value="option4"
+                                           onClick="respuesta('cuatro');"/>
+                                </div>
+                            </div>
+                            <label class="form-control form-check-label opp4" for="op4"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="radio" name="opciones" id="op5" value="option5"
+                                           onClick="respuesta('cinco');">
+                                </div>
+                            </div>
+                            <label class="form-control form-check-label opp5" for="op5"/>
+                        </div>
+
+
+                    </div>
+
+                    <!-- Numeración y finalizar-->
+                    <div class="col-12 text-center">
+                        <div>
+                            <input id="orden" name="numeracion" type="text" value="1" size="2">/10
+                        </div>
+                        <div class="float-right">
+                            <button id="finalizar" class="btn btn-danger">Finalizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Scrip para preguntas -->
+    <script type="application/javascript">
+        /*Variables*/
+        let enun = [];
+        let op1 = [];
+        let op2 = [];
+        let op3 = [];
+        let op4 = [];
+        let op5 = [];
+        var soluciones = [];
+        var puntaje=0;
+        var id_exam=" ";
+        /*Aqui va el limite de preguntas establecido por la BD*/
+        let limite = 9;
+        /*Inicializamos el array de respuesta*/
+        let rpta = [];
+        for (let i = 0; i < limite; i++) {
+            rpta[i] = 0;
+        }
+        {% for p in preguntas %}
+            enun.push(`{{ p.id_Pregunta.Enunciado }}`);
+            op1.push(`{{ p.id_Pregunta.Opcion1 }}`);
+            op2.push(`{{ p.id_Pregunta.Opcion2 }}`);
+            op3.push(`{{ p.id_Pregunta.Opcion3 }}`);
+            op4.push(`{{ p.id_Pregunta.Opcion4 }}`);
+            op5.push(`{{ p.id_Pregunta.Opcion5 }}`);
+            soluciones.push(`{{p.id_Pregunta.sovle}}`);
+            id_exam=`{{p.id_Examen.id}}`;
+        {% endfor %}
+
+        /*Logica de Preguntas next y back*/
+        let value = 0;
+
+        function next() {
+            if (value == limite) {
+                return;
+            }
+            value++;
+            cambiar();
+        }
+
+        function back() {
+            if (value == 0) {
+                return;
+            }
+            value--;
+            cambiar();
+        }
+
+        $('#btn-next').click(function () {
+            next();
+        });
+        $('#btn-back').click(function () {
+            back();
+        });
+
+        /*Asigno la respuesta segun la pregunta*/
+        function respuesta(rpta_opcion) {
+            switch (rpta_opcion) {
+                case 'uno':
+                    rpta[value] = 1;
+                    break;
+                case 'dos':
+                    rpta[value] = 2;
+                    break;
+                case 'tres':
+                    rpta[value] = 3;
+                    break;
+                case 'cuatro':
+                    rpta[value] = 4;
+                    break;
+                case 'cinco':
+                    rpta[value] = 5;
+                    break;
+            }
+            console.log(rpta);
+            console.log(rpta[value]);
+        }
+
+        /*Numeración*/
+        $('input[name=numeracion]').change(function () {
+            value = $('#orden').val() - 1;
+            cambiar()
+        });
+
+        /*Funcion para re dibujar las preguntas y sus opciones*/
+        function cambiar() {
+            $('.numero_pregunta').text('Pregunta: ' + (value + 1))
+            $('.enunciado').text(enun[value])
+            $('.opp1').text(op1[value])
+            $('.opp2').text(op2[value])
+            $('.opp3').text(op3[value])
+            $('.opp4').text(op4[value])
+            $('.opp5').text(op5[value])
+            $('#orden').val(value + 1)
+            $("#op1,#op2,#op3,#op4,#op5").prop("checked", false);
+
+            if (rpta[value] != 0) {
+                if (rpta[value] == 1) {
+                    $("#op1").prop("checked", true);
+                } else if (rpta[value] == 2) {
+                    $("#op2").prop("checked", true);
+                } else if (rpta[value] == 3) {
+                    $("#op3").prop("checked", true);
+                } else if (rpta[value] == 4) {
+                    $("#op4").prop("checked", true);
+                } else if (rpta[value] == 5) {
+                    $("#op5").prop("checked", true);
+                }
+            }
+
+            /*Ocultar o mostrar botones*/
+            if (value == limite) {
+                $("#finalizar").show();
+                $('#btn-back').attr("disabled", false);
+                $('#btn-next').attr("disabled", true);
+            } else if (value == 0) {
+                $('#btn-next').attr("disabled", false);
+                $('#btn-back').attr("disabled", true);
+            } else if (value > limite || value < 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Este número de pregunta no existe!',
+                    footer: 'Te dirigiremos a la primera pregunta :D'
+                });
+                value = 0;
+                cambiar();
+            } else {
+                $('#btn-back').attr("disabled", false);
+                $('#btn-next').attr("disabled", false);
+            }
+
+        }
+
+        /*Empezar a llenar la primer pregunta*/
+        cambiar()
+
+        /* boton de Finalizar*/
+        $('#finalizar').click(function () {
+            document.getElementById('countdown').innerHTML = "<META HTTP-EQUIV='REFRESH' CONTENT='1;URL=/Final/{{user.id}}/"+id_exam+"/"+puntaje+"/ '>";
+        });
+
+        /*Atajo de teclado para boton next y back - Error con teclas
+        document.onkeydown = checkKey;
+
+        function checkKey(e) {
+            e = e || window.event;
+            if (e.keyCode == '37') {
+                back();
+            } else if (e.keyCode == '39') {
+                next();
+            }
+
+        }*/
+    </script>
+
+    <!-- Scrip para la hora -->
+    <script>
+        var end = new Date('08/04/2020 18:33');
+        var _second = 1000;
+        var _minute = _second * 60;
+        var _hour = _minute * 60;
+        var _day = _hour * 24;
+        var timer;
+
+        function showRemaining() {
+            var now = new Date();
+            var distance = end - now;
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById('countdown').innerHTML = "<META HTTP-EQUIV='REFRESH' CONTENT='1;URL=/Final/{{user.id}}/"+id_exam+"/"+puntaje+"/ '>";
+                return;
+            }
+            var days = Math.floor(distance / _day);
+            var hours = Math.floor((distance % _day) / _hour);
+            var minutes = Math.floor((distance % _hour) / _minute);
+            var seconds = Math.floor((distance % _minute) / _second);
+
+            document.getElementById('countdown').innerHTML = hours + ' hrs: ';
+            document.getElementById('countdown').innerHTML += minutes + ' min: ';
+            document.getElementById('countdown').innerHTML += seconds + ' seg';
+        }
+
+        timer = setInterval(showRemaining, 1000);
+    </script>
+
+    <!-- Scrip para la fin de examen -->
+    <script>
+        function calcular(){
+            puntaje=0;
+            for(let i=0;i<limite;i++){
+                if(soluciones[i]==rpta[i]){
+                    puntaje++;
+                }
+            }
+        }
+    </script>
+{% endblock content %}
+

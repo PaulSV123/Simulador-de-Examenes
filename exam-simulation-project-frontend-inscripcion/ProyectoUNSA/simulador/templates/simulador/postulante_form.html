@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}Registrate{% endblock %}
+
+{% block style %}
+    .minh-100 {
+    height: 100vh;
+    }
+    .bg-shadow{
+    box-shadow: 10px 10px 0px 0px rgba(183,92,95,1);
+    }
+{% endblock %}
+
+{% block body %}
+    <body style="background-color: #F4F6F9">
+    <div class="min-vh-100 d-flex flex-column justify-content-between ">
+        <div style="height: 10px;background-color: #6F1215">
+        </div>
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <form method="post" action="." class="bg-shadow">
+                        <div class="card card-primary">
+                            <div class="card-body">
+                                <h1 class="text-center">Registro</h1>
+                                {% csrf_token %}
+                                <div class="input-group mb-3">
+                                    {{ form.username|add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Ingrese el usuario' }}
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    {{ form.email|add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Ingrese correo electronico' }}
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-envelope"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    {{ form.first_name|add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Ingrese nombres' }}
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    {{ form.last_name|add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Ingrese sus apellidos' }}
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    {{ form.password1|add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Ingrese contraseña' }}
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-unlock-alt"></span>
+                                        </div>
+                                    </div>
+                                    {{ form.password1.help_text}}
+                                </div>
+                                <div class="input-group mb-3">
+                                    {{ form.password2|add_class:'form-control'|attr:'autocomplete:off'|attr:'placeholder:Ingrese nuevamente la contraseña' }}
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-unlock-alt"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center">
+                                <button type="submit" class="btn btn-outline-danger btn-flat">
+                                    <i class="fas fa-arrow-right"></i> Registrar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+        <div>
+            {% include 'footer.html' %}
+        </div>
+    </div>
+
+
+    {##}
+{#        <form action="" method="POST">#}
+{#            {% csrf_token %}#}
+{#            {{ form.as_p }}#}
+{#            <input type="submit" name="submit">#}
+{#        </form>#}
+    <script type="application/javascript">
+        {% if form.errors %}
+            var errors = '';
+            {% for field in form %}
+                {% for error in field.errors %}
+                    errors += '{{ error }}\n';
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                errors += '{{ error }}\n'
+            {% endfor %}
+            Swal.fire({
+                title: 'Error!',
+                text: errors,
+                icon: 'error'
+            });
+        {% endif %}
+    </script>
+    </body>
+{% endblock body %}

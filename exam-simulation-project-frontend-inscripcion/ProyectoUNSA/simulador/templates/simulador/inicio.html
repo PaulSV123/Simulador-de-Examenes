@@ -1,0 +1,36 @@
+{% extends 'tablero/tablero.html' %}
+
+{% block style %}
+    .cajita{
+    padding:80px;
+    text-align: center;
+    }
+    .content-wrapper{
+    background: rgb(111,18,21);
+    background: linear-gradient(163deg, rgba(111,18,21,1) 35%, rgba(255,255,255,1) 100%);
+    }
+    .letra{
+    font-weight: bold;
+    font-size:30px;
+    }
+{% endblock %}
+
+{% block content %}
+<div class="container fondito">
+    <div class="row mx-auto">
+        <div class="col-md-8 bg-white rounded mx-auto my-4">
+            <div class="row cajita">
+              <div class="letra">
+                <h1>Bienvenido al Inicio del sistema de SEIVI: {{ user.username }}</h1>
+                <h3>Intrucciones</h3>
+              </div>
+              <p><li>Verificar si su usuario y contraseña son los correctos</li></p><br>
+              <p><li>Verificar si el correo electronico es el correcto</li></p><br>
+              <p><li>Cada preinscipcion debe confirmalo por correo</li></p><br>
+              <p><li>No debe llenar varias preinscipciones de examenes si no los realizara</li></p><br>
+            </div>
+            <img src="/static/image/logo_transparente.png" alt="Seivi Logo" class="img-fluid" width="100px">
+        </div>
+   </div>
+</div>
+{% endblock %}

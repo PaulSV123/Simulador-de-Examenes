@@ -1,0 +1,68 @@
+{% load static %}
+<aside class="main-sidebar sidebar-light-primary elevation-4">
+    <a href="#" class="brand-link text-center">
+        <img src="{% static 'image/logo_transparente.png' %}"
+             alt="Seivi Logo"
+             class="img-fluid" width="100px">
+    </a>
+    <div class="sidebar">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="info p-0">
+                <span class="d-block text-break">Simulador de Examenes de Ingreso Virtual</span>
+            </div>
+        </div>
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                    <a href="{% url 'inicio' %}" class="nav-link">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            INICIO
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'perfil' %}" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            PERFIL
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a data-target="#perfil" class="nav-link" data-toggle="collapse">
+                        <i class="nav-icon fas fa-sticky-note"></i>
+                        <p>
+                            EXAMEN
+                        </p>
+                    </a>
+                </li>
+                <div  class="collapse nav-sidebar flex-column" id="perfil">
+                    <li class="nav-item">
+                        <a href="{% url 'examen' %}" class="nav-link">
+                            <p>
+                                Activos
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'examen2' %}" class="nav-link">
+                            <p>
+                                Dados
+                            </p>
+                        </a>
+                    </li>
+                </div>
+                
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-trophy"></i>
+                        <p>
+                            EXTRA
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>

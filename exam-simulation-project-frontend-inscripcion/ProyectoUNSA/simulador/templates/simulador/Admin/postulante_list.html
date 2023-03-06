@@ -1,0 +1,33 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block div %}
+<h1>Postulantes</h1>
+<table class="table">
+  <tr>
+    <td>#</td>
+    <td><h4>Postulante</h4></td>
+    <td>#</td>
+    <td>#</td>
+  </tr>
+  {% for i in object_list %}
+  {% if i.usuario.is_staff %}
+  {% else %}
+  <tr>
+    <td>{{i.id}}</td>
+    <td>{{i.usuario.username}}</td>
+    <td>
+      <a href="{% url 'Pedit' i.id %}" type="submit" class="btn btn-warning">Editar</a>
+    </td>
+    <td>
+        <a href="{% url 'Udelete' i.usuario.id %}" type="submit" class="btn btn-danger">Eliminar</a>
+    </td>
+  </tr>
+  {% endif %}
+  {% empty %}
+  <p>No articles yet.</p>
+  {% endfor %}
+</table>
+  <br>
+  <a href="{% url 'Administrador' %}">Volver</a>
+{% endblock %}

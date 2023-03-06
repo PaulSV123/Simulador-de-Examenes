@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block head %}
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.5/plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.5/css/adminlte.min.css' %}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="{% static 'lib/adminlte-3.0.5/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'lib/adminlte-3.0.5/js/adminlte.min.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <!-- Header -->
+        {% include 'tablero/header.html' %}
+        <!-- Menu lateral -->
+        {% include 'tablero/menu.html' %}
+        <!-- Content -->
+        <div class="content-wrapper">
+            <div class="content-header">
+
+            </div>
+            <div class="content">
+                <div class="container-fluid">
+                    {% block content %}
+
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        {% include 'footer2.html' %}
+    </div>
+    <!-- Block javascript -->
+    <script type="application/javascript">
+        {% block javascript %}
+
+        {% endblock %}
+    </script>
+    </body>
+{% endblock %}

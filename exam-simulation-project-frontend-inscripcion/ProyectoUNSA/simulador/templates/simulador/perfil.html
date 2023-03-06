@@ -1,0 +1,46 @@
+{% extends 'tablero/tablero.html' %}
+
+{% block content %}
+<style>
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+  }
+  
+  .title {
+    color: grey;
+    font-size: 18px;
+  }
+  
+  button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+  }
+
+  button:hover, a:hover {
+    opacity: 0.7;
+  }
+</style>
+
+
+<h1 style="text-align: center;">Perfil</h1>
+<div class="card">
+  <h1>{{ user.username }}</h1>
+  <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+  <p class="title">{{ user.email }}</p>
+  <p>DNI: {{user.postulante.DNI}}</p>
+  <p>Ultimo Inicio de Sesion: {{ user.last_login }}</p>
+  <p><button>Contact: {{user.postulante.Telefono}}</button></p>
+</div>
+{% endblock %}

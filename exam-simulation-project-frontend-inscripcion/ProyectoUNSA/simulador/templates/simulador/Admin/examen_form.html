@@ -1,0 +1,20 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block div %}
+  <div class="container" style="text-align: center;">
+    <form action="{% url 'Excreate' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <p>{{form.Tipo.label}}: {{form.Tipo}}</p>
+      <p>{{form.Fecha_Examen.label}}: <input type="datetime-local" name="Fecha_Examen" required id="id_Fecha_Examen"></p>
+      <p>{{form.Fecha_Resultados.label}}: <input type="datetime-local" name="Fecha_Resultados" required id="id_Fecha_Resultados"></p>
+      <p>{{form.Duracion.label}}: <input type="time" name="Duracion" required id="id_Duracion"></p>
+      <p>Numero de Preguntas: {{form.Nmro_Preguntas}}</p>
+      <input type="submit" value="Save">
+    </form>
+  </div>
+{% endblock div %}
+
+{% block javascript %}
+
+{% endblock javascript %}

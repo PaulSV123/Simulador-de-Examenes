@@ -1,0 +1,33 @@
+{% extends 'tablero/tablero.html' %}
+{% block content %}
+<style>
+    tr{
+        background-color:darkred;
+        color: white;
+        border-radius: 1cm;
+    }
+</style>
+<h1>Examenes Realizados</h1>
+    <table class="table">
+        <tr>
+            <td>id_exa</td>
+            <td>#</td>
+            <td>Solucionarios</td>
+        </tr>
+        {% for i in Post %}
+            {% if i.Postulante_id.usuario.id == user.id %}
+            <tr>
+                <td>{{i.Examen_id.id}}</td>
+                <td>Examen {{i.Examen_id.get_Tipo_display}}</td>
+                <td>
+                    <a href="{% url 'Soluc' i.id %}" class="nav-link">
+                    <i class="nav-icon fas fa-book"></i>
+                    Solucionario</a>
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+{% endblock %}
+{% block javascript %}
+{% endblock javascript %}

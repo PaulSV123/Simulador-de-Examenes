@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bienvenido{% endblock %}
+{% block style %}
+    .bg{
+    display: block;
+    min-height: 100vh;
+    background-image:url( {% static 'image/bg1.jpg' %});
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    }
+    .tarjeta{
+    position:absolute;
+    top: 10%;
+    right: 10%;
+    width: 350px;
+    height: auto;
+    background-color: #6F1215;
+    box-shadow: 10px 10px 0px 0px rgba(183,92,95,1);
+    border-radius:20px;
+    }
+    .btn-inicio1 , .btn-inicio2{
+    display:block;
+    width:80%;
+    height:auto;
+    padding:10px;
+    background-color:#C4C4C4;
+    }
+    .btn-inicio1{
+    border-radius:10px 0 0 10px;
+    border-right:4px solid #6F1215;
+    }
+    .btn-inicio2{
+    border-radius:0 10px 10px 0;
+    border-left:4px solid #6F1215;
+    }
+{% endblock %}
+
+
+{% block body %}
+    <body style="background-color: #F4F6F9">
+    <div class="tarjeta container text-white px-4 py-2">
+        <div class="container">
+            <div class="row flex-column text-center">
+                <col-12>
+                    <img src="{% static 'image/logo_transparente.png' %}" width="80%" alt="Logo Seivi">
+                </col-12>
+                <col-12>
+                    <span class="h3">PROXIMO EXÁMEN</span>
+                </col-12>
+                <col-12>
+                    <span class="h3">31/07/2020</span>
+                </col-12>
+                <col-12>
+                    {% if user.is_authenticated %}
+                        <div class="row py-4">
+                            <div class="col-12 text-center">
+                                <h3>Hola {{ user.username }}</h3>
+                            </div>
+                            <div class="col-md-6 p-0">
+                                <a href="{% url 'tablero' %}"
+                                   class="btn-inicio1 font-weight-bold text-decoration-none float-right">Tablero</a>
+                            </div>
+                            <div class="col-md-6 p-0">
+                                <a href="{% url 'sign_out' %}"
+                                   class="btn-inicio2 font-weight-bold text-decoration-none">Cerrar sesión</a>
+                            </div>
+                        </div>
+
+
+                    {% else %}
+                        <div class="row py-4">
+                            <div class="col-md-6 p-0">
+                                <a href="{% url 'sign_in' %}"
+                                   class="btn-inicio1 font-weight-bold text-decoration-none float-right"
+                                   name="Login">Login</a>
+                            </div>
+                            <div class="col-md-6 p-0">
+                                <a href="{% url 'sign_up' %}" class="btn-inicio2 font-weight-bold text-decoration-none">Registrate</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </col-12>
+            </div>
+        </div>
+    </div>
+    <div class="min-vh-100 d-flex flex-column">
+        <div>
+            <img src="{% static 'image/bg1.jpg' %}" class="img-fluid" width="100%" height="auto" alt="">
+        </div>
+        <div>
+            {% include 'footer.html' %}
+        </div>
+    </div>
+{% endblock %}
+
+

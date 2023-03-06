@@ -1,0 +1,18 @@
+{% extends 'tablero/tablero.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <form action="{% url 'preinscribir' user.id %}" method="POST">
+        {% csrf_token %}
+        <label for="sel1">Escuela:</label>
+        <select class="form-control" id="sel1" name="Escuela_id">
+            {% for i in Escuelas %}
+            <option value='{{i.id}}'>{{i.Nombre}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-outline-danger btn-flat">
+            Preinscribir
+        </button>
+    </form>
+</div>
+{% endblock %}
