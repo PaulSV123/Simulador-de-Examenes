@@ -22,7 +22,7 @@ MEDIA_ROOT_URL = '.'
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'p37f_=8mc9*(z10b=#r@z&()+n6y%ys(fvhl)4yy6yse1@+@b&'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -131,12 +131,12 @@ LOGIN_URL = '/inicia-sesion/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST= "smtp.gmail.com"
-EMAIL_USE_TLS= True
-EMAIL_PORT=587
-EMAIL_HOST_USER="simuladorexamenesunsa@gmail.com"
-EMAIL_HOST_PASSWORD= "delunoalnueve"
+EMAIL_BACKEND=''
+EMAIL_HOST=''
+EMAIL_USE_TLS=''
+EMAIL_PORT=''
+EMAIL_HOST_USER=''
+EMAIL_HOST_PASSWORD=''
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
